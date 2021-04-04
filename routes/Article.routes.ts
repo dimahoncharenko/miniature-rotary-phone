@@ -1,5 +1,4 @@
 import { Router } from "express";
-import articles from "../db";
 import Article from "../models/Article";
 
 let router = Router();
