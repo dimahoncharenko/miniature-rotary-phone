@@ -1,0 +1,7 @@
+{
+    "PORT": 80,
+    "DB": "postgres",
+    "DB_USER": "postgres",
+    "USER_PASS": "seriousdt423",
+    "DB_PORT": 9969
+}
