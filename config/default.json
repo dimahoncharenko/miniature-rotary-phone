@@ -1,4 +1,0 @@
-{
-    "PORT": 80,
-    "MONGO_URI": "mongodb+srv://dima:raptor315@cluster0.3tt9x.mongodb.net/Articles?retryWrites=true&w=majority"
-}

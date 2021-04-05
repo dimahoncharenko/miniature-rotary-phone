@@ -1,6 +1,5 @@
 import express from "express";
 import expHbs from "express-handlebars";
-import config from "config";
 
 import articles from "../routes/Article.routes";
 import { connect } from "../utils/connection";
@@ -9,7 +8,7 @@ connect();
 
 let app = express();
 
-app.set("PORT", process.env.PORT || config.get("PORT"));
+app.set("PORT", process.env.PORT || 80);
 app.set("view engine", "handlebars");
 app.engine("handlebars", expHbs({ 
     defaultLayout: "main.handlebars", 
