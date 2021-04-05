@@ -1,8 +1,10 @@
 import express from "express";
 import expHbs from "express-handlebars";
+import cors from "cors";
 
 import articles from "../routes/Article.routes";
 import { connect } from "../utils/connection";
+import Article from "../models/Article";
 
 connect();
 
@@ -30,9 +32,11 @@ app.engine("handlebars", expHbs({
     }
 }));
 
+app.use(cors());
 app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
+    await Article.find({}); 
     res.render("home");
 });
 
