@@ -1,38 +1,39 @@
-import { Model, DataTypes, Optional } from "sequelize";
-import { sequelize } from "../utils/connection";
+import { Schema, model, Document } from "mongoose";
 
-interface ArticleAttributes {
-    id: number,
+interface Page {
     heading: string,
-    content: string | null
-};
+    content: string,
+    page: number
+}
 
-interface ArticleCreationAttributes extends Optional<ArticleAttributes, "id"> {};
+export interface IArticle extends Document {
+    title: string,
+    size: number,
+    pages: Page[]
+}
 
-class Article extends Model<ArticleAttributes, ArticleCreationAttributes> implements ArticleAttributes {
-    public id!: number;
-    public heading!: string;
-    public content!: string | null;
-};
-
-Article.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+const schema = new Schema({
+    title: {
+        type: String,
+        require: true
     },
-    heading: {
-        type: DataTypes.STRING,
-        allowNull: false
+    size: {
+        type: Number
     },
-    content: {
-        type: DataTypes.TEXT,
-        allowNull: true
-    }
-}, {
-    sequelize,
-    modelName: "article",
-    timestamps: false
+    pages: [
+        {
+            heading: {
+                type: String,
+            },
+            content: {
+                type: String,
+            },
+            page: {
+                type: Number,
+            }
+        }
+    ]
 });
 
+const Article = model<IArticle>("Article", schema);
 export default Article;

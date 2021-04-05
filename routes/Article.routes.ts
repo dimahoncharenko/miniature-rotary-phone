@@ -1,15 +1,25 @@
 import { Router } from "express";
-import Article from "../models/Article";
+import Article, { IArticle } from "../models/Article";
 
 let router = Router();
 
-router.get("/:id", async (req, res) => {
-    const id = +req.params.id;
-    const article = await Article.findOne({ where: { id }});
+router.get("/:id/:page", async (req, res) => {
+    const id = req.params.id;
+    const page = +req.params.page;
+    const article: IArticle | null = await Article.findById(id);
     if (article == null) {
         return;
     }
-    res.render("article", { article: { id: article.get("id"), heading: article.get("heading"), content: article.get("content") } });
+    
+    res.render("article", { 
+        article: { 
+            id, 
+            page, 
+            size: article.size, 
+            heading: article.pages[page - 1].heading, 
+            content: article.pages[page - 1].content 
+        } 
+    });
 });
 
 export default router;

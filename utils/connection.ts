@@ -1,20 +1,17 @@
-import { Sequelize } from "sequelize";
+import mongoose from "mongoose";
 import config from "config";
 
-export const sequelize: Sequelize = new Sequelize(config.get("DB"), config.get("DB_USER"), config.get("USER_PASS"), {
-    host: "localhost",
-    port: config.get("DB_PORT"),
-    dialect: "postgres"
-});
-
-sequelize.sync({ force: false });
-
-export const isConnect = async () => {
+export const connect = async () => {
     try {
-        await sequelize.authenticate();
+        await mongoose.connect(config.get("MONGO_URI"), {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        });
         console.log("Connected To DB!");
-    } catch (err) {
-        console.error(err);
+    } catch (e) {
+        console.error(e);        
         process.exit(1);
     }
-};
+}
+

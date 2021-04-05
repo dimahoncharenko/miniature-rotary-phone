@@ -1,41 +1,42 @@
 import express from "express";
 import expHbs from "express-handlebars";
+import config from "config";
 
 import articles from "../routes/Article.routes";
-import { isConnect } from "../utils/connection";
+import { connect } from "../utils/connection";
 
-isConnect();
+connect();
 
 let app = express();
 
-app.set("PORT", process.env.PORT || 4000);
+app.set("PORT", process.env.PORT || config.get("PORT"));
 app.set("view engine", "handlebars");
 app.engine("handlebars", expHbs({ 
     defaultLayout: "main.handlebars", 
     helpers: {
-        nextArticle: function(id: number, max: number) {
-            ++id;
-            if (id > max) {
-                id = 1;
+        nextArticle: function(id: string, page: number, max: number) {
+            ++page;
+            if (page > max) {
+                page = 1;
             }
-            return `/article/${id}`;
+            return `/articles/${id}/${page}`;
         },
-        prevArticle: function(id: number, max: number) {
-            --id;
-            if (id < 1) {
-                id = max;
+        prevArticle: function(id: string, page: number, max: number) {
+            --page;
+            if (page < 1) {
+                page = max;
             }
-            return `/article/${id}`;
+            return `/articles/${id}/${page}`;
         }
     }
 }));
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     res.render("home");
 });
 
-app.use("/article", articles);
+app.use("/articles", articles);
 
 app.listen(app.get("PORT"), () => console.log(`Server ready at port: ${app.get("PORT")}`));

@@ -1,9 +1,9 @@
 <div class="controls">
-    <a id="prev" href="{{ prevArticle article.id 5 }}">Пепередня сторінка</a>
-    <a id="next" href="{{ nextArticle article.id 5 }}">Наступна сторінка</a>
+    <a id="prev" href="{{ prevArticle article.id article.page article.size }}">Пепередня сторінка</a>
+    <a id="next" href="{{ nextArticle article.id article.page article.size }}">Наступна сторінка</a>
 </div>
 <article class="article">
     <h2>{{ article.heading }}</h2>
     {{{ article.content }}}
 </article>
-<span class="page">{{ article.id }}</span>
+<span class="page">{{ article.page }}</span>
