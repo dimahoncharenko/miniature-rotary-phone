@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import config from "config";
 
 export const connect = async () => {
     try {
-        await mongoose.connect("mongodb+srv://dima:raptor315@cluster0.3tt9x.mongodb.net/Articles?retryWrites=true&w=majority", {
+        await mongoose.connect(config.get("MONGO_URI"), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false

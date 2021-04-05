@@ -1,16 +1,16 @@
 import express from "express";
 import expHbs from "express-handlebars";
 import cors from "cors";
+import config from "config";
 
 import articles from "../routes/Article.routes";
 import { connect } from "../utils/connection";
-import Article from "../models/Article";
 
 connect();
 
 let app = express();
 
-app.set("PORT", process.env.PORT || 80);
+app.set("PORT", process.env.PORT || config.get("PORT"));
 app.set("view engine", "handlebars");
 app.engine("handlebars", expHbs({ 
     defaultLayout: "main.handlebars", 
@@ -35,8 +35,7 @@ app.engine("handlebars", expHbs({
 app.use(cors());
 app.use(express.static("public"));
 
-app.get("/", async (req, res) => {
-    await Article.find({}); 
+app.get("/", (req, res) => {
     res.render("home");
 });
 
